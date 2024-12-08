@@ -1,0 +1,28 @@
+{
+  "name": "@xisabla/bootstrap-typescript",
+  "version": "1.0.0",
+  "description": "Bootstrap TypeScript",
+  "author": {
+    "name": "Gautier Miquet",
+    "email": "xisabla.dev@gmail.com",
+    "url": "https://github.com/Xisabla/Xisabla/"
+  },
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx ./src/index.ts",
+    "start:dev": "tsx watch ./src/index.ts",
+    "start:debug": "tsx watch --inspect-brk ./src/index.ts",
+    "start:prod": "node .",
+    "clean": "rimraf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "yarn@4.5.2"
+}
