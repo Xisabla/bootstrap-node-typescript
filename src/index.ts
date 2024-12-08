@@ -1,45 +1,50 @@
 /**
- * Sample typescript file
+ * Main entry point for the server.
  *
- * Main entry point for the application
+ * Create a simple HTTP server that listens on port 3000 and responds with "Hello, World!" to all requests.
  */
 
-//=============================================================================
-// Classes
-//=============================================================================
+import http from 'http';
+import Logger from './logger';
 
-/**
- * Example of a class with a protected method
- */
-class Foo {
-    constructor() {
-        this.sayHello();
+const log = new Logger('Server');
+
+// ============================================================================
+// Configuration
+// ============================================================================
+
+const PORT = 3000;
+
+// ============================================================================
+// Request handler
+// ============================================================================
+
+const requestHandler = (req: http.IncomingMessage, res: http.ServerResponse): void => {
+    log.log(`Received request: ${req.method} ${req.url}`);
+
+    if (req.method === 'GET' && req.url === '/') {
+        log.success('Request successful');
+
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Hello, World!');
+    } else {
+        log.error(`Not Found: ${req.method} ${req.url}`);
+
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
     }
+};
 
-    /**
-     * Say hello
-     */
-    protected sayHello(): void {
-        console.log("Hello");
-    }
-}
-
-/**
- * Example of a class that extends Foo and overrides the sayHello method
- */
-class Bar extends Foo {
-    protected override sayHello(): void {
-        console.log("World");
-    }
-}
-
-//=============================================================================
+// ============================================================================
 // Main
-//=============================================================================
+// ============================================================================
 
 (() => {
-    new Bar();
+    const server = http.createServer(requestHandler);
 
-    // Keep the process running, allow testing dev mode
-    while (true) {}
+    server.listen(PORT, () => {
+        log.verbose(`Server started at ${new Date().toISOString()}`);
+        log.info(`Server is listening on port ${PORT}`);
+        log.info(`Visit http://localhost:${PORT}/ to see the server in action`);
+    });
 })();
