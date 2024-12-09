@@ -20,15 +20,18 @@ const PORT = 3000;
 // ============================================================================
 
 const requestHandler = (req: http.IncomingMessage, res: http.ServerResponse): void => {
-    log.log(`Received request: ${req.method} ${req.url}`);
+    const method = req.method ?? "UNKNOWN";
+    const url = req.url ?? "UNKNOWN";
 
-    if (req.method === "GET" && req.url === "/") {
+    log.log(`Received request: ${method} ${url}`);
+
+    if (method === "GET" && url === "/") {
         log.success("Request successful");
 
         res.writeHead(200, { "Content-Type": "text/plain" });
         res.end("Hello, World!");
     } else {
-        log.error(`Not Found: ${req.method} ${req.url}`);
+        log.error(`Not Found: ${method} ${url}`);
 
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.end("Not Found");
@@ -44,7 +47,19 @@ const requestHandler = (req: http.IncomingMessage, res: http.ServerResponse): vo
 
     server.listen(PORT, () => {
         log.verbose(`Server started at ${new Date().toISOString()}`);
-        log.info(`Server is listening on port ${PORT}`);
-        log.info(`Visit http://localhost:${PORT}/ to see the server in action`);
+        log.info(`Server is listening on port ${PORT.toString()}`);
+        log.info(`Visit http://localhost:${PORT.toString()}/ to see the server in action`);
     });
 })();
+
+// Stop the server when the process is terminated
+
+function stopServer(): void {
+    log.warn("Server is shutting down...");
+
+    process.exit(0);
+}
+
+process.on("SIGINT", stopServer);
+process.on("SIGTERM", stopServer);
+process.on("SIGQUIT", stopServer);
