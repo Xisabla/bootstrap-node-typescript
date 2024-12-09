@@ -37,7 +37,7 @@ class Logger {
     private formatMessage(level: string, message: string, color?: Color): string {
         const timestamp = new Date().toISOString();
 
-        if(color) {
+        if (color) {
             message = colorize(color, message);
         }
 
@@ -59,7 +59,7 @@ class Logger {
      * @param message - Log message
      */
     public log(message: string): void {
-        console.log(this.formatMessage('LOG', message));
+        console.log(this.formatMessage("LOG", message));
     }
 
     /**
@@ -68,7 +68,7 @@ class Logger {
      * @param message - Log message
      */
     public verbose(message: string): void {
-        console.log(this.formatMessage('VERBOSE', message, 'gray'));
+        console.log(this.formatMessage("VERBOSE", message, "gray"));
     }
 
     /**
@@ -77,7 +77,7 @@ class Logger {
      * @param message - Log message
      */
     public info(message: string): void {
-        console.log(this.formatMessage('INFO', message, 'blue'));
+        console.log(this.formatMessage("INFO", message, "blue"));
     }
 
     /**
@@ -86,7 +86,7 @@ class Logger {
      * @param message - Log message
      */
     public warn(message: string): void {
-        console.warn(this.formatMessage('WARN', message, 'yellow'));
+        console.warn(this.formatMessage("WARN", message, "yellow"));
     }
 
     /**
@@ -95,7 +95,7 @@ class Logger {
      * @param message - Log message
      */
     public error(message: string): void {
-        console.error(this.formatMessage('ERROR', message, 'red'));
+        console.error(this.formatMessage("ERROR", message, "red"));
     }
 
     /**
@@ -104,7 +104,7 @@ class Logger {
      * @param message - Log message
      */
     public critical(message: string): void {
-        console.error(this.formatMessage('CRITICAL', message, 'bgRedWhite'));
+        console.error(this.formatMessage("CRITICAL", message, "bgRedWhite"));
     }
 
     /**
@@ -113,7 +113,7 @@ class Logger {
      * @param message - Log message
      */
     public success(message: string): void {
-        console.log(this.formatMessage('SUCCESS', message, 'green'));
+        console.log(this.formatMessage("SUCCESS", message, "green"));
     }
 }
 

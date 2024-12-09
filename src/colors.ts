@@ -15,18 +15,18 @@
  * ```
  */
 export const colors = {
-    blue: '\x1b[34m',
-    cyan: '\x1b[36m',
-    gray: '\x1b[90m',
-    green: '\x1b[32m',
-    magenta: '\x1b[35m',
-    red: '\x1b[31m',
-    yellow: '\x1b[33m',
+    blue: "\x1b[34m",
+    cyan: "\x1b[36m",
+    gray: "\x1b[90m",
+    green: "\x1b[32m",
+    magenta: "\x1b[35m",
+    red: "\x1b[31m",
+    yellow: "\x1b[33m",
 
-    bgRedWhite: '\x1b[41m\x1b[37m',
+    bgRedWhite: "\x1b[41m\x1b[37m",
 
-    reset: '\x1b[0m',
-}
+    reset: "\x1b[0m",
+};
 
 /**
  * Color names
