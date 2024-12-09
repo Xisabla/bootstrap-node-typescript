@@ -1,0 +1,12 @@
+*
+
+!./.git
+!./scripts
+!./src
+!./tests
+!./.yarnrc.yml
+!./jest.config.js
+!./package.json
+!./tsconfig.json
+!./yarn.lock
+!./entrypoint.sh
