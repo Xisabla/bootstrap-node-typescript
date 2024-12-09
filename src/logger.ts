@@ -4,7 +4,20 @@
  * Provides a Logger class with methods for logging messages with different log levels.
  */
 
-import { Color, colorize } from "./colors";
+import c, { Color, colorize } from "./colors";
+
+/**
+ * Enum for log levels
+ */
+export enum LogLevel {
+    LOG = "LOG",
+    VERBOSE = "VERBOSE",
+    INFO = "INFO",
+    WARN = "WARN",
+    ERROR = "ERROR",
+    CRITICAL = "CRITICAL",
+    SUCCESS = "SUCCESS",
+}
 
 /**
  * Logger class
@@ -12,11 +25,30 @@ import { Color, colorize } from "./colors";
  * Provides logging methods for different log levels.
  * Logs messages with a timestamp and the name of the logger.
  */
-class Logger {
+export default class Logger {
     /**
      * Name of the logger
      */
     private _name: string;
+
+    /**
+     * Colors to use for the prefix of each log level
+     */
+    private _levelColors: Record<LogLevel, Color | Color[]> = {
+        [LogLevel.LOG]: "cyan",
+        [LogLevel.VERBOSE]: "gray",
+        [LogLevel.INFO]: "blue",
+        [LogLevel.WARN]: "yellow",
+        [LogLevel.ERROR]: "red",
+        [LogLevel.CRITICAL]: ["bgRed", "white", "bright"],
+        [LogLevel.SUCCESS]: "green",
+    };
+
+    /**
+     * Colors to use for the timestamp and logger name
+     */
+    private _timestampColor: Color = "magenta";
+    private _nameColor: Color = "cyan";
 
     constructor(name: string) {
         this._name = name;
@@ -30,20 +62,23 @@ class Logger {
      * Format a log message with a timestamp, logger name, log level, and message
      *
      * @param level - Log level
-     * @param message - Log message
+     * @param messages - Log messages
      * @param color - Optional color for the message
      * @returns Formatted log message
      */
-    private formatMessage(level: string, message: string, color?: Color): string {
+    private formatMessage(level: LogLevel, messages: string[], color?: Color | Color[]): string {
         const timestamp = new Date().toISOString();
+        let message = messages.join(" ");
 
         if (color) {
             message = colorize(color, message);
         }
 
-        const prefixTimestamp = `[${timestamp}]`;
-        const prefixName = `[${this._name}]`;
-        const prefixLevel = `[${level}]`;
+        const levelColor = this._levelColors[level];
+
+        const prefixTimestamp = `${c.green("[")}${colorize(this._timestampColor, timestamp)}${c.green("]")}`;
+        const prefixName = `${c.green("[")}${colorize(this._nameColor, this._name)}${c.green("]")}`;
+        const prefixLevel = `${c.green("[")}${colorize(levelColor, level)}${c.green("]")}`;
         const prefix = `${prefixTimestamp} ${prefixName} ${prefixLevel}`;
 
         return `${prefix} ${message}`;
@@ -54,67 +89,65 @@ class Logger {
     // ========================================================================
 
     /**
-     * Log a message with the LOG level
+     * Log messages with the LOG level
      *
-     * @param message - Log message
+     * @param messages - Log messages
      */
-    public log(message: string): void {
-        console.log(this.formatMessage("LOG", message));
+    public log(...messages: string[]): void {
+        console.log(this.formatMessage(LogLevel.LOG, messages));
     }
 
     /**
-     * Log a message with the VERBOSE level
+     * Log messages with the VERBOSE level
      *
-     * @param message - Log message
+     * @param messages - Log messages
      */
-    public verbose(message: string): void {
-        console.log(this.formatMessage("VERBOSE", message, "gray"));
+    public verbose(...messages: string[]): void {
+        console.log(this.formatMessage(LogLevel.VERBOSE, messages, "gray"));
     }
 
     /**
-     * Log a message with the DEBUG level
+     * Log messages with the INFO level
      *
-     * @param message - Log message
+     * @param messages - Log messages
      */
-    public info(message: string): void {
-        console.log(this.formatMessage("INFO", message, "blue"));
+    public info(...messages: string[]): void {
+        console.log(this.formatMessage(LogLevel.INFO, messages, "blue"));
     }
 
     /**
-     * Log a message with the WARN level
+     * Log messages with the WARN level
      *
-     * @param message - Log message
+     * @param messages - Log messages
      */
-    public warn(message: string): void {
-        console.warn(this.formatMessage("WARN", message, "yellow"));
+    public warn(...messages: string[]): void {
+        console.warn(this.formatMessage(LogLevel.WARN, messages, "yellow"));
     }
 
     /**
-     * Log a message with the ERROR level
+     * Log messages with the ERROR level
      *
-     * @param message - Log message
+     * @param messages - Log messages
      */
-    public error(message: string): void {
-        console.error(this.formatMessage("ERROR", message, "red"));
+    public error(...messages: string[]): void {
+        console.error(this.formatMessage(LogLevel.ERROR, messages, "red"));
     }
 
     /**
-     * Log a message with the CRITICAL level
+     * Log messages with the CRITICAL level
      *
-     * @param message - Log message
+     * @param messages - Log messages
      */
-    public critical(message: string): void {
-        console.error(this.formatMessage("CRITICAL", message, "bgRedWhite"));
+    public critical(...messages: string[]): void {
+        console.error(this.formatMessage(LogLevel.CRITICAL, messages, ["bgRed", "white"]));
     }
 
     /**
-     * Log a message with the SUCCESS level
+     * Log messages with the SUCCESS level
      *
-     * @param message - Log message
+     * @param messages - Log messages
      */
-    public success(message: string): void {
-        console.log(this.formatMessage("SUCCESS", message, "green"));
+    public success(...messages: string[]): void {
+        console.log(this.formatMessage(LogLevel.SUCCESS, messages, "green"));
     }
 }
-
-export default Logger;
