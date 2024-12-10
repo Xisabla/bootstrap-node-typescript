@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build
+        run: yarn build
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          bump_type=$(git log -1 --pretty=%B | grep -Eo "major|minor|patch|premajor|preminor|prepatch|prerelease")
+          if [ -z "$bump_type" ]; then
+          bump_type="patch"
+          fi
+          echo "::set-output name=bump_type::$bump_type"
+          npm version --no-git-tag-version $bump_type
+
+      - name: Generate changelog
+        run: yarn changelog
+
+      - name: Commit and tag changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore(release): update version and changelog"
+          git tag $(cat package.json | jq -r .version)
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push origin main --tags
+
+      # - name: Publish package
+      #   run: yarn publish --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
