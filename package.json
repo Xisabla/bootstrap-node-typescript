@@ -10,9 +10,9 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "yarn generate-version && tsc",
     "start": "tsx ./src/index.ts",
-    "start:dev": "tsx watch ./src/index.ts",
+    "start:dev": "yarn generate-version && tsx watch ./src/index.ts",
     "start:debug": "tsx watch --inspect-brk ./src/index.ts",
     "start:prod": "node .",
     "clean": "rimraf dist",
@@ -22,9 +22,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "jest --inspect-brk",
-    "postinstall": "husky",
+    "postinstall": "husky && yarn generate-version",
     "prepack": "pinst --disable",
-    "postpack": "pinst --enable"
+    "postpack": "pinst --enable",
+    "generate-version": "node ./scripts/generate-version.js"
   },
   "lint-staged": {
     "*.ts": [
