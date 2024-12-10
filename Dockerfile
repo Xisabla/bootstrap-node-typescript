@@ -1,25 +1,19 @@
-# Builder
-
-FROM node:latest AS builder
+FROM node:latest
 
 WORKDIR /app
 
 COPY . .
 
-RUN corepack enable
-RUN yarn install --immutable && yarn build
-
-# Runner
-
-FROM node:latest AS runner
-
-WORKDIR /app
-
-COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/yarn.lock /app/yarn.lock
-COPY --from=builder /app/dist /app/dist
+RUN set -xe && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
 
 RUN corepack enable
-RUN yarn install --immutable && yarn cache clean
+RUN yarn install --immutable \
+    && yarn build \
+    && yarn cache clean
 
 CMD ["node", "."]
