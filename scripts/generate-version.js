@@ -1,3 +1,7 @@
+/**
+ * This script generates a version.json file that contains the current build revision and the package version.
+ */
+
 const packageJson = require("../package.json");
 const fs = require("fs/promises");
 const path = require("path");
