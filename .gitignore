@@ -136,3 +136,6 @@ dist
 
 #!.yarn/cache
 .pnp.*
+
+# Project generated files
+src/version.json

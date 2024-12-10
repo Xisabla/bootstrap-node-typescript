@@ -1,6 +1,7 @@
 import http from "http";
 import Logger from "./logger";
 import { requestHandler } from "./app";
+import version from "./version.json";
 
 const log = new Logger("Main");
 
@@ -18,6 +19,7 @@ const PORT = 3000;
     const server = http.createServer(requestHandler);
 
     server.listen(PORT, () => {
+        log.info(`Server version: ${version.version} (${version.build})`);
         log.verbose(`Server started at ${new Date().toISOString()}`);
         log.info(`Server is listening on port ${PORT.toString()}`);
         log.info(`Visit http://localhost:${PORT.toString()}/ to see the server in action`);
