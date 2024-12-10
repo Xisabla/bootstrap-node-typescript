@@ -1,42 +1,14 @@
-/**
- * Main entry point for the server.
- *
- * Create a simple HTTP server that listens on port 3000 and responds with "Hello, World!" to all requests.
- */
-
 import http from "http";
 import Logger from "./logger";
+import { requestHandler } from "./app";
 
-const log = new Logger("Server");
+const log = new Logger("Main");
 
 // ============================================================================
 // Configuration
 // ============================================================================
 
 const PORT = 3000;
-
-// ============================================================================
-// Request handler
-// ============================================================================
-
-const requestHandler = (req: http.IncomingMessage, res: http.ServerResponse): void => {
-    const method = req.method ?? "UNKNOWN";
-    const url = req.url ?? "UNKNOWN";
-
-    log.log(`Received request: ${method} ${url}`);
-
-    if (method === "GET" && url === "/") {
-        log.success("Request successful");
-
-        res.writeHead(200, { "Content-Type": "text/plain" });
-        res.end("Hello, World!");
-    } else {
-        log.error(`Not Found: ${method} ${url}`);
-
-        res.writeHead(404, { "Content-Type": "text/plain" });
-        res.end("Not Found");
-    }
-};
 
 // ============================================================================
 // Main
