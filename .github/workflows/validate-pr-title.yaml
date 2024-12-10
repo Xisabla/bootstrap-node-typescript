@@ -1,0 +1,24 @@
+name: Validate PR Title
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-pr-title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate PR title
+        id: validate
+        run: |
+          pr_title="${{ github.event.pull_request.title }}"
+          echo "PR Title: $pr_title"
+          if [[ ! "$pr_title" =~ ^(chore\(release\):\ (major|minor|patch|premajor|preminor|prepatch|prerelease)\ -\ .+)$ ]]; then
+            echo "Invalid PR title format. The title must start with 'chore(release): <type> - <message>' where <type> is one of 'major', 'minor', 'patch', 'premajor', 'preminor', 'prepatch', or 'prerelease'."
+            exit 1
+          fi
