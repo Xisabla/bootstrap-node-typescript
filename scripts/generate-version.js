@@ -11,7 +11,14 @@ const root = path.join(__dirname, "../");
 const filePath = path.join(root, "src/version.json");
 
 // Easiest way to get the current git revision
-const revision = execSync("git rev-parse HEAD", { cwd: root }).toString().trim();
+
+let revision = "unknown";
+
+try {
+    revision = execSync("git rev-parse HEAD", { cwd: root }).toString().trim();
+} catch {
+    console.warn("⚠️ No .git directory found, skipping version file generation.");
+}
 
 //
 // The version file contains:
