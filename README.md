@@ -76,7 +76,7 @@ Here are the available scripts you can run using `yarn`:
 - `yarn test:debug`: Runs the test suite with the inspector enabled.
 - `yarn generate-version`: Generates the `version.json` file.
 - `yarn update-version`: Updates the version in the `package.json` file.
-- `yarn changelog`: Generates the changelog using `gitmoji-changelog`.
+- `yarn changelog`: Generates the changelog using `auto-changelog`.
 
 ## Docker 🐳
 
@@ -101,7 +101,7 @@ The project contains multiple GitHub Actions workflows to automate the CI/CD pro
 
 ## Changelog 📝
 
-The changelog is available in the [CHANGELOG.md](CHANGELOG.md) file. The changelog is generated using [gitmoji-changelog](https://github.com/frinyvonnick/gitmoji-changelog).
+The changelog is available in the [CHANGELOG.md](CHANGELOG.md) file. The changelog is generated using [auto-changelog](https://www.npmjs.com/package/auto-changelog).
 
 ## Contributing 🤝
 
