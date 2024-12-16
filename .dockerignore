@@ -1,12 +1,15 @@
+# Ignore everything by default
 *
 
+# Add only the necessary files
 !./.git
 !./scripts
 !./src
-!./tests
+!./test
 !./.yarnrc.yml
 !./jest.config.js
 !./package.json
 !./tsconfig.json
 !./yarn.lock
+
 !./entrypoint.sh
